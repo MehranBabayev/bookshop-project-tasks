@@ -1,0 +1,75 @@
+create table Book_info(
+id int unsigned Auto_increment Primary Key,
+title varchar(100) not null,
+author varchar(40) not null,
+published_at smallint(4) not null,
+exist boolean default true,
+genre varchar(40) not null,
+language varchar(40) not null,
+price DECIMAL(10,2) default 10.00,
+Author_id int unsigned not null,
+Genre_id int unsigned not null,
+Lang_id int unsigned not null,
+Foreign Key (Author_id) References Author(id) on delete cascade,
+Foreign Key (Genre_id) References Genre(id) on delete cascade,
+Foreign Key (Lang_id) References Lang(id) on delete cascade
+ );
+
+insert into Book_info(title, author, published_at, genre,language, price,Author_id,Genre_id,Lang_id)
+values ("Nineteen Eighty Four", "George Orwell",1949,"Dystopian","English","10.00",1,1,1),
+("The Mysterious Island", "Jules Verne",1875," Science fiction","French","10.00",2,2,2),
+("The Three Musketeers", "Alexandre Dumas",1844,"Science fiction","French","10.00",3,2,2),
+("The Adventures of Sherlock Holmes", "Arthur Conan Doyle",1892,"Detective fiction","English","10.00",4,3,1),
+("Robinson Crusoe", "Daniel Defoe",1719, "Detective fiction","English","10.00",5,3,1)
+*****************************************
+
+create table Author(
+id int unsigned Auto_increment Primary Key,
+name varchar(100) not null,
+description text not null
+ );
+
+insert into Author(name,description)
+values ("George Orwell","some text"),
+("Jules Verne","some text"),
+("Alexandre Dumas","some text"),
+("Arthur Conan Doyle","some text"),
+("Daniel Defoe","some text")
+
+*************************************
+
+create table Lang(
+id int unsigned Auto_increment Primary Key,
+lang_code varchar(10) NOT NULL,
+lang_name varchar(40) NOT NULL
+ );
+
+insert into Lang(lang_code,lang_name)
+values ("en","English"),
+("fr-FR","French"),
+("ru","Russian")
+
+
+*******************************************
+create table Genre(
+id int unsigned Auto_increment Primary Key,
+name varchar(40) 
+ );
+
+insert into Genre(name)
+values ("Dystopian"),
+("Science fiction"),
+("Detective fiction")
+
+**********************************************
+
+select Book_info.id, Book_info.title, Author.id ,Author.description from Book_info
+inner join Author on Book_info.Author_id = Author.id;
+
+
+select Book_info.id, Book_info.title, Genre.id, Genre.name from Book_info
+left join Genre on Book_info.Genre_id = Genre.id;
+
+
+select Book_info.id, Book_info.title, Lang.id, Lang.lang_code,Lang.lang_name from Book_info
+right join Lang on Book_info.Lang_id = Lang.id;
